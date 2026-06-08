@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hendors Diagnostics Patient Intake</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+  <main class="page">
+    <section class="card">
+      <header class="brand">
+        <img src="hendors_hd10_reporting_logo.png" alt="Hendors Diagnostics" onerror="this.style.display='none'" />
+        <div>
+          <h1>Hendors Diagnostics</h1>
+          <p>Patient Registration</p>
+        </div>
+      </header>
+
+      <div class="notice">
+        Please complete your details before your ultrasound appointment. Reception will verify and approve your registration.
+      </div>
+
+      <form id="intakeForm">
+        <label>Full name<input name="full_name" required autocomplete="name" /></label>
+        <label>ID / Passport number<input name="id_number" autocomplete="off" /></label>
+        <label>Date of birth<input name="dob" type="date" /></label>
+        <label>Sex
+          <select name="sex">
+            <option value="">Select</option>
+            <option>Female</option><option>Male</option><option>Other</option>
+          </select>
+        </label>
+        <label>Cell / WhatsApp<input name="phone" required inputmode="tel" autocomplete="tel" /></label>
+        <label>Email<input name="email" type="email" autocomplete="email" /></label>
+        <label>Address<textarea name="address" rows="2"></textarea></label>
+        <label>Occupation<input name="occupation" /></label>
+        <label>Employer / Work<input name="employer_work" /></label>
+        <label>Medical aid
+          <select name="medical_aid">
+            <option>Cash</option><option>Discovery Health</option><option>GEMS</option><option>Bonitas</option><option>Momentum</option><option>Medihelp</option><option>Bestmed</option><option>Other</option>
+          </select>
+        </label>
+        <label>Medical aid number<input name="medical_aid_no" /></label>
+        <label>Main member<input name="main_member" /></label>
+        <label>Referring doctor<input name="referring_doctor" /></label>
+        <label class="consent"><input type="checkbox" name="consent" required /> I confirm that the information is correct and consent to Hendors Diagnostics using it for registration and appointment administration.</label>
+        <button type="submit">Submit Registration</button>
+      </form>
+      <p id="status" class="status"></p>
+    </section>
+  </main>
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
