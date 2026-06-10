@@ -3,19 +3,18 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Hendors Diagnostics Patient Intake</title>
+  <title>Hendors Diagnostics Patient Registration</title>
   <link rel="stylesheet" href="styles.css" />
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
   <main class="page">
     <section class="card">
-      <header class="brand">
-        <img src="hendors_hd10_reporting_logo.png" alt="Hendors Diagnostics" onerror="this.style.display='none'" />
-        <div>
-          <h1>Hendors Diagnostics</h1>
-          <p>Patient Registration</p>
-        </div>
+      <header class="hero">
+        <img class="hero-logo" src="hd-logo-banner.png" alt="Hendors Diagnostics" />
+        <h1>Patient Registration</h1>
+        <p class="tagline">Ultrasound Diagnostic Imaging &amp; Reporting</p>
+        <p class="contacts">072 763 6282 &nbsp;|&nbsp; WhatsApp alternative: 081 488 2066</p>
       </header>
 
       <div class="notice">
@@ -49,9 +48,11 @@
         <button type="submit">Submit Registration</button>
       </form>
       <p id="status" class="status"></p>
+      <footer class="footer">Your information is sent securely to Hendors Diagnostics reception for verification.</footer>
     </section>
   </main>
   <script src="config.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
+
