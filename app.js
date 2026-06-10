@@ -30,3 +30,4 @@ form.addEventListener('submit', async (ev) => {
   if (error) { setStatus('Could not submit registration: ' + error.message); return; }
   form.reset(); setStatus('Thank you. Your details were sent to reception.', true);
 });
+
