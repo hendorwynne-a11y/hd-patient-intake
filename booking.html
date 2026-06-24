@@ -548,13 +548,17 @@ async function submitToPayFast() {
     });
   } catch(e) { console.log(e); }
   const nameParts = name.split(' ');
-  const baseUrl = window.location.href.split('?')[0];
+  const baseUrl = 'https://hendorwynne-a11y.github.io/hd-patient-intake/booking.html';
   document.getElementById('pf_return').value = baseUrl+'?booking=success&ref='+paymentId;
   document.getElementById('pf_cancel').value = baseUrl+'?booking=cancelled';
   document.getElementById('pf_name_first').value = nameParts[0];
   document.getElementById('pf_name_last').value = nameParts.slice(1).join(' ')||'';
   document.getElementById('pf_email').value = email||'';
-  document.getElementById('pf_phone').value = phone;
+  // Format phone for PayFast: +27XXXXXXXXX
+  let pfPhone = phone.replace(/\s/g,'');
+  if (pfPhone.startsWith('0')) pfPhone = '+27' + pfPhone.slice(1);
+  else if (!pfPhone.startsWith('+')) pfPhone = '+27' + pfPhone;
+  document.getElementById('pf_phone').value = pfPhone;
   document.getElementById('pf_payment_id').value = paymentId;
   document.getElementById('pf_amount').value = deposit.toFixed(2);
   document.getElementById('pf_item_name').value = 'Hendors Diagnostics – '+selectedScan.name;
