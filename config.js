@@ -1,4 +1,3 @@
 // Supabase connection for Hendors Diagnostics patient intake.
-const SUPABASE_URL = "https://gjrtwovewrgjuqgmlirr.supabase.co";
-const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_eaWmwTbHrKhaFMbFqRqmEQ_vqGHQWCg";
-
+const SUPABASE_URL = "https://acqahzuiozxfuqyqmgqr.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFjcWFoenVpb3p4ZnVxeXFtZ3FyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc5MTY5MjYsImV4cCI6MjA5MzQ5MjkyNn0.8BMl5bjtI0o23eAG5j5p53Pun_h1s8cecY6xiTVs6aE"
