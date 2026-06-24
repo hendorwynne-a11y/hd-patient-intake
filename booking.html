@@ -230,6 +230,22 @@
     <h2 class="section-title">Confirm your booking &amp; pay deposit</h2>
     <div class="notice"><strong>✅ Almost done!</strong>A 50% deposit secures your booking. The balance is payable on the day.</div>
     <div class="card" id="summary_card"></div>
+
+    <div style="background:#fff3cd;border-left:4px solid #e6a817;border-radius:0 10px 10px 0;padding:16px 18px;margin-bottom:20px;">
+      <p style="font-weight:700;color:#7a4f00;font-size:0.95rem;margin-bottom:8px">⚠️ Cancellation Policy</p>
+      <p style="font-size:0.88rem;color:#5a3a00;line-height:1.6">
+        If you need to cancel or reschedule your appointment, you must do so <strong>at least 8 hours before your scheduled scan time</strong>.<br/><br/>
+        Cancellations made <strong>less than 8 hours before</strong> your appointment will result in <strong>forfeiture of your 50% deposit</strong>. No refund will be issued for late cancellations or no-shows.<br/><br/>
+        To cancel or reschedule, please contact us on <strong>072 763 6282</strong> or WhatsApp <strong>081 488 2066</strong>.
+      </p>
+      <div style="display:flex;align-items:flex-start;gap:10px;margin-top:14px;padding:12px;background:white;border-radius:8px;border:1.5px solid #e6a817;">
+        <input type="checkbox" id="policy_agree" style="width:20px;height:20px;margin-top:2px;flex-shrink:0;cursor:pointer;accent-color:var(--blue)"/>
+        <label for="policy_agree" style="font-size:0.88rem;color:#3a2a00;cursor:pointer;font-weight:500">
+          I have read and accept the cancellation policy. I understand that cancelling less than 8 hours before my appointment will result in forfeiture of my 50% deposit.
+        </label>
+      </div>
+    </div>
+
     <div class="card">
       <p style="font-size:0.9rem;color:var(--muted);margin-bottom:16px">You will be redirected to PayFast's secure payment page. After payment your booking is confirmed and reception will contact you.</p>
       <button class="btn btn-pay" onclick="submitToPayFast()">🔒 Pay Deposit &amp; Confirm Booking</button>
@@ -503,6 +519,10 @@ function buildSummary() {
 
 // ── PayFast ────────────────────────────────────────────────────────────────
 async function submitToPayFast() {
+  if (!document.getElementById('policy_agree').checked) {
+    alert('Please read and accept the cancellation policy before proceeding.');
+    return;
+  }
   const name = document.getElementById('pat_name').value.trim();
   const phone = document.getElementById('pat_phone').value.trim();
   const email = document.getElementById('pat_email').value.trim();
@@ -538,7 +558,7 @@ async function submitToPayFast() {
   document.getElementById('pf_payment_id').value = paymentId;
   document.getElementById('pf_amount').value = deposit.toFixed(2);
   document.getElementById('pf_item_name').value = 'Hendors Diagnostics – '+selectedScan.name;
-  document.getElementById('pf_item_desc').value = `Booking deposit for ${selectedScan.name} on ${date} at ${selectedSlot}. Ref: ${paymentId}`;
+  document.getElementById('pf_item_desc').value = `Booking deposit for ${selectedScan.name} on ${date} at ${selectedSlot}. Ref: ${paymentId}. Cancellation policy: forfeit deposit if cancelled less than 8 hours before appointment.`;
   document.getElementById('pf_form').submit();
 }
 
