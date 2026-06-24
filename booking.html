@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Book a Scan — Hendors Diagnostics</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap');
+  :root {
+    --navy:#0a1628;--navy2:#1e3a5f;--blue:#1e5fa8;--accent:#2d9cdb;
+    --light:#f4f7fb;--card:#ffffff;--text:#1a2340;--muted:#6b7a99;
+    --green:#0e7a3d;--border:#dde3f0;--red:#c0392b;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Inter',sans-serif;background:var(--light);color:var(--text);min-height:100vh;}
+  .hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy2) 60%,#1a4a7a 100%);color:white;position:relative;overflow:hidden;}
+  .hero::before{content:'';position:absolute;top:-80px;right:-80px;width:400px;height:400px;background:radial-gradient(circle,rgba(45,156,219,0.15) 0%,transparent 70%);border-radius:50%;}
+  .hero-inner{max-width:1100px;margin:0 auto;padding:32px 24px 40px;display:flex;align-items:center;gap:24px;flex-wrap:wrap;}
+  .hero-logo{width:72px;height:72px;background:rgba(255,255,255,0.1);border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:32px;flex-shrink:0;}
+  .hero-text h1{font-family:'Playfair Display',serif;font-size:clamp(1.6rem,4vw,2.4rem);font-weight:700;line-height:1.2;}
+  .hero-text p{margin-top:8px;color:rgba(255,255,255,0.75);font-size:1rem;}
+  .hero-contact{margin-left:auto;text-align:right;color:rgba(255,255,255,0.8);font-size:0.9rem;line-height:1.8;}
+  .hero-contact a{color:var(--accent);text-decoration:none;}
+  .staff-link{text-align:center;padding:10px;background:var(--navy);font-size:0.78rem;}
+  .staff-link a{color:rgba(255,255,255,0.3);text-decoration:none;}
+  .staff-link a:hover{color:rgba(255,255,255,0.6);}
+  .main{max-width:900px;margin:0 auto;padding:40px 20px 60px;}
+  .section-title{font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--navy);margin-bottom:20px;}
+  .steps{display:flex;gap:0;margin-bottom:36px;border-radius:12px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,0.08);}
+  .step{flex:1;padding:14px 10px;text-align:center;background:var(--card);border-right:1px solid var(--border);font-size:0.8rem;color:var(--muted);font-weight:500;}
+  .step:last-child{border-right:none;}
+  .step.active{background:var(--blue);color:white;}
+  .step.done{background:#e8f5ee;color:var(--green);}
+  .step-num{display:block;font-size:1.2rem;margin-bottom:2px;}
+  .card{background:var(--card);border-radius:16px;padding:28px;box-shadow:0 2px 16px rgba(0,0,0,0.07);margin-bottom:24px;}
+  .cat-label{font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--accent);margin:20px 0 10px;}
+  .cat-label:first-child{margin-top:0;}
+  .scan-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px;}
+  .scan-item{border:2px solid var(--border);border-radius:10px;padding:12px 14px;cursor:pointer;transition:all 0.18s;display:flex;justify-content:space-between;align-items:center;gap:8px;}
+  .scan-item:hover{border-color:var(--accent);background:#f0f8ff;}
+  .scan-item.selected{border-color:var(--blue);background:#e8f0ff;}
+  .scan-name{font-size:0.88rem;font-weight:500;}
+  .scan-price{font-size:0.82rem;color:var(--muted);white-space:nowrap;}
+  .scan-item.selected .scan-price{color:var(--blue);font-weight:600;}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
+  .form-row.single{grid-template-columns:1fr;}
+  @media(max-width:600px){.form-row{grid-template-columns:1fr;}}
+  label{display:block;font-size:0.82rem;font-weight:600;color:var(--navy2);margin-bottom:5px;}
+  input,select,textarea{width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:8px;font-size:0.92rem;font-family:inherit;color:var(--text);background:white;transition:border 0.15s;outline:none;}
+  input:focus,select:focus,textarea:focus{border-color:var(--accent);}
+  textarea{resize:vertical;min-height:80px;}
+  .slot-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:8px;margin-top:10px;}
+  .slot{padding:9px 6px;text-align:center;border:1.5px solid var(--border);border-radius:8px;font-size:0.82rem;font-weight:500;cursor:pointer;transition:all 0.15s;}
+  .slot:hover{border-color:var(--accent);background:#f0f8ff;}
+  .slot.selected{border-color:var(--blue);background:var(--blue);color:white;}
+  .slot.blocked{opacity:0.35;cursor:not-allowed;background:#f0f0f0;text-decoration:line-through;}
+  .summary-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);font-size:0.9rem;}
+  .summary-row:last-child{border-bottom:none;}
+  .summary-row.total{font-weight:700;font-size:1rem;color:var(--navy);padding-top:14px;}
+  .summary-row.deposit{color:var(--green);font-weight:700;font-size:1.1rem;}
+  .btn{display:inline-block;padding:14px 32px;border-radius:10px;font-size:1rem;font-weight:700;font-family:inherit;cursor:pointer;border:none;transition:all 0.18s;text-align:center;}
+  .btn-primary{background:var(--blue);color:white;width:100%;}
+  .btn-primary:hover{background:#1a4e8e;transform:translateY(-1px);}
+  .btn-secondary{background:transparent;color:var(--blue);border:2px solid var(--blue);}
+  .btn-secondary:hover{background:#f0f4ff;}
+  .btn-pay{background:linear-gradient(135deg,#0e7a3d,#12a050);color:white;width:100%;font-size:1.1rem;padding:16px;}
+  .btn-pay:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(14,122,61,0.3);}
+  .btn-row{display:flex;gap:12px;margin-top:8px;}
+  .notice{background:#e8f5ee;border-left:4px solid var(--green);border-radius:0 8px 8px 0;padding:12px 16px;font-size:0.88rem;color:#0a4a26;margin-bottom:20px;}
+  .notice strong{display:block;margin-bottom:2px;}
+  .info-box{background:#eef4ff;border-left:4px solid var(--accent);border-radius:0 8px 8px 0;padding:12px 16px;font-size:0.85rem;color:var(--navy2);margin-top:16px;}
+  .warn-box{background:#fff8e1;border-left:4px solid #f59e0b;border-radius:0 8px 8px 0;padding:12px 16px;font-size:0.85rem;color:#78350f;margin-top:12px;}
+  .page-section{display:none;}
+  .page-section.active{display:block;}
+  .success-icon{font-size:4rem;text-align:center;margin-bottom:16px;}
+  .success-title{font-family:'Playfair Display',serif;font-size:1.8rem;text-align:center;color:var(--green);}
+  .success-sub{text-align:center;color:var(--muted);margin-top:8px;}
+  .ref-box{background:var(--light);border-radius:10px;padding:16px;text-align:center;margin:20px 0;font-size:1.1rem;font-weight:700;color:var(--navy);letter-spacing:0.05em;}
+  .required{color:#e53e3e;}
+  /* ADMIN PANEL */
+  .admin-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);z-index:1000;align-items:center;justify-content:center;}
+  .admin-overlay.open{display:flex;}
+  .admin-modal{background:white;border-radius:20px;padding:32px;max-width:700px;width:95%;max-height:90vh;overflow-y:auto;}
+  .admin-modal h2{font-family:'Playfair Display',serif;color:var(--navy);margin-bottom:20px;}
+  .admin-tabs{display:flex;gap:8px;margin-bottom:24px;flex-wrap:wrap;}
+  .admin-tab{padding:8px 18px;border-radius:8px;border:1.5px solid var(--border);cursor:pointer;font-size:0.88rem;font-weight:600;background:white;color:var(--muted);}
+  .admin-tab.active{background:var(--blue);color:white;border-color:var(--blue);}
+  .admin-section{display:none;}
+  .admin-section.active{display:block;}
+  .day-row{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border);flex-wrap:wrap;}
+  .day-label{font-weight:600;min-width:110px;font-size:0.9rem;}
+  .day-row input[type=time]{width:110px;padding:7px 10px;}
+  .day-row input[type=checkbox]{width:18px;height:18px;cursor:pointer;}
+  .day-status{font-size:0.8rem;color:var(--muted);}
+  .blocked-date-list{margin-top:12px;}
+  .blocked-date-item{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:var(--light);border-radius:8px;margin-bottom:6px;font-size:0.88rem;}
+  .remove-btn{background:var(--red);color:white;border:none;border-radius:6px;padding:4px 10px;cursor:pointer;font-size:0.78rem;}
+  .special-day-item{background:var(--light);border-radius:10px;padding:12px;margin-bottom:10px;}
+  .special-day-item .sdi-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:0.72rem;font-weight:700;background:#e8f0ff;color:var(--blue);}
+  .badge.beaufort{background:#fff3e0;color:#e65100;}
+  .badge.sunday{background:#f3e5f5;color:#6a1b9a;}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-logo">🩺</div>
+    <div class="hero-text">
+      <h1>Hendors Diagnostics</h1>
+      <p>Ultrasound Diagnostic Imaging &amp; Reporting</p>
+    </div>
+    <div class="hero-contact">
+      <div>📞 072 763 6282</div>
+      <div>📱 081 488 2066 (WhatsApp)</div>
+      <div><a href="mailto:hendorsdiagnostics@gmail.com">hendorsdiagnostics@gmail.com</a></div>
+    </div>
+  </div>
+</div>
+
+<div class="main">
+  <div class="steps">
+    <div class="step active" id="step1-tab"><span class="step-num">1</span>Select Scan</div>
+    <div class="step" id="step2-tab"><span class="step-num">2</span>Your Details</div>
+    <div class="step" id="step3-tab"><span class="step-num">3</span>Date &amp; Time</div>
+    <div class="step" id="step4-tab"><span class="step-num">4</span>Confirm &amp; Pay</div>
+  </div>
+
+  <!-- STEP 1 -->
+  <div class="page-section active" id="section1">
+    <h2 class="section-title">Select your scan type</h2>
+    <div class="card">
+      <div class="cat-label">🤰 Obstetric Ultrasound</div>
+      <div class="scan-grid">
+        <div class="scan-item" onclick="selectScan(this,'Before 10-week Obstetric Scan','5106',900)"><span class="scan-name">Before 10-week Obstetric Scan</span><span class="scan-price">R900</span></div>
+        <div class="scan-item" onclick="selectScan(this,'10–20 weeks + NT Scan','3615',900)"><span class="scan-name">10–20 weeks + NT Scan</span><span class="scan-price">R900</span></div>
+        <div class="scan-item" onclick="selectScan(this,'20–24 weeks Detail / Anomaly Scan','3617',1300)"><span class="scan-name">20–24 weeks Detail / Anomaly Scan</span><span class="scan-price">R1,300</span></div>
+        <div class="scan-item" onclick="selectScan(this,'Obstetric Scan after 24 weeks','5107',900)"><span class="scan-name">Obstetric Scan after 24 weeks</span><span class="scan-price">R900</span></div>
+      </div>
+      <div class="cat-label">🔬 Pelvic / Gynaecological</div>
+      <div class="scan-grid">
+        <div class="scan-item" onclick="selectScan(this,'Pelvic Organs – Gynae Trans-abdominal','3618',980)"><span class="scan-name">Pelvic Organs – Gynae Trans-abdominal</span><span class="scan-price">R980</span></div>
+        <div class="scan-item" onclick="selectScan(this,'Pelvic Organ Gynae Trans-vaginal','5100',980)"><span class="scan-name">Pelvic Organ Gynae Trans-vaginal</span><span class="scan-price">R980</span></div>
+        <div class="scan-item" onclick="selectScan(this,'Transvaginal & Trans-abdominal Gynae','',1600)"><span class="scan-name">Transvaginal &amp; Trans-abdominal Gynae</span><span class="scan-price">R1,600</span></div>
+      </div>
+      <div class="cat-label">🫀 Abdominal &amp; Renal</div>
+      <div class="scan-grid">
+        <div class="scan-item" onclick="selectScan(this,'Abdominal Ultrasound','3627',1300)"><span class="scan-name">Abdominal Ultrasound</span><span class="scan-price">R1,300</span></div>
+        <div class="scan-item" onclick="selectScan(this,'Renal Track Ultrasound','3628',1000)"><span class="scan-name">Renal Track Ultrasound</span><span class="scan-price">R1,000</span></div>
+        <div class="scan-item" onclick="selectScan(this,'Pleural Space Ultrasound','5101',980)"><span class="scan-name">Pleural Space Ultrasound</span><span class="scan-price">R980</span></div>
+      </div>
+      <div class="cat-label">🔍 Small Parts (HD)</div>
+      <div class="scan-grid">
+        <div class="scan-item" onclick="selectScan(this,'HD – Thyroid, Breasts, Testes, MSK','3629',980)"><span class="scan-name">HD – Thyroid, Breasts, Testes, MSK</span><span class="scan-price">R980</span></div>
+      </div>
+      <div class="cat-label">🩸 Vascular / Doppler</div>
+      <div class="scan-grid">
+        <div class="scan-item" onclick="selectScan(this,'DVT Scan + Doppler','5114',980)"><span class="scan-name">DVT Scan + Doppler</span><span class="scan-price">R980</span></div>
+        <div class="scan-item" onclick="selectScan(this,'Carotid Doppler','3622',1600)"><span class="scan-name">Carotid Doppler</span><span class="scan-price">R1,600</span></div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="goToStep(2)" id="next1Btn" disabled style="opacity:0.5">Continue → Your Details</button>
+    </div>
+  </div>
+
+  <!-- STEP 2 -->
+  <div class="page-section" id="section2">
+    <h2 class="section-title">Your details</h2>
+    <div class="card">
+      <div class="form-row">
+        <div><label>Full name <span class="required">*</span></label><input type="text" id="pat_name" placeholder="e.g. Jane Smith"/></div>
+        <div><label>ID / Passport number</label><input type="text" id="pat_id" placeholder="e.g. 9001015009087"/></div>
+      </div>
+      <div class="form-row">
+        <div><label>Cell / WhatsApp <span class="required">*</span></label><input type="tel" id="pat_phone" placeholder="e.g. 0821234567"/></div>
+        <div><label>Email address</label><input type="email" id="pat_email" placeholder="e.g. jane@email.com"/></div>
+      </div>
+      <div class="form-row">
+        <div>
+          <label>Medical aid / Cash</label>
+          <select id="pat_medical" onchange="document.getElementById('medNotice').style.display=this.value!=='Cash'?'block':'none'">
+            <option value="Cash">Cash</option>
+            <option value="Discovery Health">Discovery Health</option>
+            <option value="GEMS">GEMS</option>
+            <option value="Bonitas">Bonitas</option>
+            <option value="Medihelp">Medihelp</option>
+            <option value="Fedhealth">Fedhealth</option>
+            <option value="Momentum">Momentum</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div><label>Referring doctor</label><input type="text" id="pat_doctor" placeholder="e.g. Dr van der Westhuizen"/></div>
+      </div>
+      <div class="form-row single">
+        <div><label>Notes / special requests</label><textarea id="pat_notes" placeholder="Any additional information…"></textarea></div>
+      </div>
+      <div class="warn-box" id="medNotice" style="display:none">⚠️ <strong>Medical aid patients:</strong> Please bring your medical aid card and referral letter. A 50% deposit is still required to secure your booking.</div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="goToStep(1)">← Back</button>
+      <button class="btn btn-primary" onclick="goToStep(3)">Continue → Choose Time</button>
+    </div>
+  </div>
+
+  <!-- STEP 3 -->
+  <div class="page-section" id="section3">
+    <h2 class="section-title">Choose your preferred date &amp; time</h2>
+    <div class="card">
+      <div class="form-row">
+        <div><label>Preferred date <span class="required">*</span></label><input type="date" id="book_date" onchange="generateSlots()"/></div>
+        <div><label>Scan selected</label><input type="text" id="scan_display" readonly style="background:#f4f7fb;color:var(--blue);font-weight:600"/></div>
+      </div>
+      <div id="day_info" style="margin-bottom:12px;font-size:0.85rem;color:var(--muted);"></div>
+      <div id="slots_area" style="display:none">
+        <label>Available time slots</label>
+        <div class="slot-grid" id="slot_grid"></div>
+      </div>
+      <div class="info-box">📍 Scans are done at our rooms in George. ⏱️ Allow 20–45 min depending on the scan type.</div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="goToStep(2)">← Back</button>
+      <button class="btn btn-primary" onclick="goToStep(4)" id="next3Btn" disabled style="opacity:0.5">Continue → Confirm &amp; Pay</button>
+    </div>
+  </div>
+
+  <!-- STEP 4 -->
+  <div class="page-section" id="section4">
+    <h2 class="section-title">Confirm your booking &amp; pay deposit</h2>
+    <div class="notice"><strong>✅ Almost done!</strong>A 50% deposit secures your booking. The balance is payable on the day.</div>
+    <div class="card" id="summary_card"></div>
+    <div class="card">
+      <p style="font-size:0.9rem;color:var(--muted);margin-bottom:16px">You will be redirected to PayFast's secure payment page. After payment your booking is confirmed and reception will contact you.</p>
+      <button class="btn btn-pay" onclick="submitToPayFast()">🔒 Pay Deposit &amp; Confirm Booking</button>
+      <div class="info-box" style="margin-top:16px">🔒 Payments processed securely by PayFast. We never store your card details.</div>
+    </div>
+    <div class="btn-row"><button class="btn btn-secondary" onclick="goToStep(3)">← Back</button></div>
+  </div>
+
+  <!-- STEP 5 SUCCESS -->
+  <div class="page-section" id="section5">
+    <div class="card" style="text-align:center;padding:48px 28px">
+      <div class="success-icon">✅</div>
+      <div class="success-title">Booking Confirmed!</div>
+      <div class="success-sub">Your deposit has been received and your booking is secured.</div>
+      <div class="ref-box" id="ref_box">REF: HD-XXXXXX</div>
+      <p style="color:var(--muted);font-size:0.9rem">Reception will contact you on <strong id="confirm_phone"></strong> to confirm your appointment details.<br/>Please bring your ID and medical aid card on the day.</p>
+      <button class="btn btn-primary" style="margin-top:28px;max-width:300px" onclick="location.href=location.pathname">Make Another Booking</button>
+    </div>
+  </div>
+</div>
+
+<div class="staff-link">
+  <a href="/">Staff portal</a> &nbsp;|&nbsp;
+  <a href="#" onclick="openAdmin()">Admin — Manage Schedule</a>
+</div>
+
+<!-- ADMIN OVERLAY -->
+<div class="admin-overlay" id="adminOverlay">
+  <div class="admin-modal">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+      <h2>⚙️ Manage Schedule</h2>
+      <button onclick="closeAdmin()" style="background:none;border:none;font-size:1.5rem;cursor:pointer">✕</button>
+    </div>
+
+    <!-- LOGIN -->
+    <div id="adminLogin">
+      <div class="form-row single" style="margin-bottom:12px">
+        <div><label>Admin password</label><input type="password" id="adminPwd" placeholder="Enter password" onkeydown="if(event.key==='Enter')checkAdminPwd()"/></div>
+      </div>
+      <button class="btn btn-primary" onclick="checkAdminPwd()">Login</button>
+      <p id="adminErr" style="color:var(--red);font-size:0.85rem;margin-top:8px;display:none">Incorrect password.</p>
+    </div>
+
+    <!-- ADMIN PANEL -->
+    <div id="adminPanel" style="display:none">
+      <div class="admin-tabs">
+        <div class="admin-tab active" onclick="switchAdminTab('hours')">🕐 Default Hours</div>
+        <div class="admin-tab" onclick="switchAdminTab('blocked')">🚫 Block Dates</div>
+        <div class="admin-tab" onclick="switchAdminTab('special')">✨ Special Days</div>
+      </div>
+
+      <!-- DEFAULT HOURS -->
+      <div class="admin-section active" id="tab_hours">
+        <p style="font-size:0.85rem;color:var(--muted);margin-bottom:16px">Set default start and end times per day. Uncheck to close that day.</p>
+        <div id="hours_rows"></div>
+        <button class="btn btn-primary" style="margin-top:16px" onclick="saveHours()">💾 Save Default Hours</button>
+        <p id="hours_saved" style="color:var(--green);font-size:0.85rem;margin-top:8px;display:none">✅ Saved!</p>
+      </div>
+
+      <!-- BLOCK DATES -->
+      <div class="admin-section" id="tab_blocked">
+        <p style="font-size:0.85rem;color:var(--muted);margin-bottom:16px">Block specific dates (public holidays, leave, etc.)</p>
+        <div class="form-row">
+          <div><label>Date to block</label><input type="date" id="block_date_input"/></div>
+          <div><label>Reason (optional)</label><input type="text" id="block_reason_input" placeholder="e.g. Public holiday"/></div>
+        </div>
+        <button class="btn btn-primary" onclick="addBlockedDate()">+ Block This Date</button>
+        <div class="blocked-date-list" id="blocked_list" style="margin-top:16px"></div>
+      </div>
+
+      <!-- SPECIAL DAYS -->
+      <div class="admin-section" id="tab_special">
+        <p style="font-size:0.85rem;color:var(--muted);margin-bottom:16px">Add special opening days — Beaufort West Fridays, Sundays, or any custom date with different hours.</p>
+        <div class="form-row">
+          <div><label>Date</label><input type="date" id="special_date"/></div>
+          <div><label>Label</label><input type="text" id="special_label" placeholder="e.g. Beaufort West Friday"/></div>
+        </div>
+        <div class="form-row">
+          <div><label>Start time</label><input type="time" id="special_start" value="14:00"/></div>
+          <div><label>End time</label><input type="time" id="special_end" value="17:00"/></div>
+        </div>
+        <button class="btn btn-primary" onclick="addSpecialDay()">+ Add Special Day</button>
+        <div id="special_list" style="margin-top:16px"></div>
+      </div>
+
+      <div style="margin-top:20px;text-align:right">
+        <button class="btn btn-secondary" onclick="closeAdmin()">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<form id="pf_form" action="https://www.payfast.co.za/eng/process" method="POST" style="display:none">
+  <input type="hidden" name="merchant_id" value="11337369"/>
+  <input type="hidden" name="merchant_key" value="bhfp7mkjwmdu9"/>
+  <input type="hidden" name="return_url" id="pf_return"/>
+  <input type="hidden" name="cancel_url" id="pf_cancel"/>
+  <input type="hidden" name="notify_url" value="https://acqahzuiozxfuqyqmgqr.supabase.co/functions/v1/payfast-notify"/>
+  <input type="hidden" name="name_first" id="pf_name_first"/>
+  <input type="hidden" name="name_last" id="pf_name_last"/>
+  <input type="hidden" name="email_address" id="pf_email"/>
+  <input type="hidden" name="cell_number" id="pf_phone"/>
+  <input type="hidden" name="m_payment_id" id="pf_payment_id"/>
+  <input type="hidden" name="amount" id="pf_amount"/>
+  <input type="hidden" name="item_name" id="pf_item_name"/>
+  <input type="hidden" name="item_description" id="pf_item_desc"/>
+</form>
+
+<script>
+// ── State ──────────────────────────────────────────────────────────────────
+let selectedScan = null;
+let selectedSlot = null;
+
+const SUPABASE_URL = 'https://acqahzuiozxfuqyqmgqr.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFjcWFoenVpb3p4ZnVxeXFtZ3FyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY1MTQ0MTYsImV4cCI6MjA2MjA5MDQxNn0.8BM15bjtI0o23e';
+const ADMIN_PWD = 'hd1wynne';
+const STORAGE_KEY = 'hd_schedule';
+
+// ── Default schedule ───────────────────────────────────────────────────────
+const DEFAULT_SCHEDULE = {
+  hours: {
+    0: { open: false, start: '08:00', end: '10:00' }, // Sun - closed by default
+    1: { open: true,  start: '16:15', end: '19:00' }, // Mon
+    2: { open: true,  start: '16:15', end: '19:00' }, // Tue
+    3: { open: true,  start: '16:15', end: '19:00' }, // Wed
+    4: { open: true,  start: '16:15', end: '19:00' }, // Thu
+    5: { open: true,  start: '16:15', end: '19:00' }, // Fri
+    6: { open: true,  start: '08:00', end: '17:00' }, // Sat
+  },
+  blocked: [],   // [{date:'2026-07-04', reason:'Public holiday'}]
+  special: []    // [{date:'2026-07-05', label:'Beaufort West Friday', start:'14:00', end:'17:00'}]
+};
+
+function loadSchedule() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || JSON.parse(JSON.stringify(DEFAULT_SCHEDULE)); }
+  catch(e) { return JSON.parse(JSON.stringify(DEFAULT_SCHEDULE)); }
+}
+function saveSchedule(s) { localStorage.setItem(STORAGE_KEY, JSON.stringify(s)); }
+
+// ── Set min date ───────────────────────────────────────────────────────────
+const today = new Date();
+document.getElementById('book_date').min = today.toISOString().split('T')[0];
+
+// ── Scan selection ─────────────────────────────────────────────────────────
+function selectScan(el, name, code, price) {
+  document.querySelectorAll('.scan-item').forEach(i => i.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedScan = { name, code, price };
+  const btn = document.getElementById('next1Btn');
+  btn.disabled = false; btn.style.opacity = '1';
+  document.getElementById('scan_display').value = name + ' — R' + price.toLocaleString();
+}
+
+// ── Step navigation ────────────────────────────────────────────────────────
+function goToStep(n) {
+  if (n === 2 && !selectedScan) { alert('Please select a scan type first.'); return; }
+  if (n === 3) {
+    const name = document.getElementById('pat_name').value.trim();
+    const phone = document.getElementById('pat_phone').value.trim();
+    if (!name || !phone) { alert('Please enter your full name and phone number.'); return; }
+  }
+  if (n === 4) {
+    const date = document.getElementById('book_date').value;
+    if (!date || !selectedSlot) { alert('Please select a date and time slot.'); return; }
+    buildSummary();
+  }
+  document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.step').forEach((s,i) => {
+    s.classList.remove('active','done');
+    if (i+1 < n) s.classList.add('done');
+    if (i+1 === n) s.classList.add('active');
+  });
+  document.getElementById('section'+n).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ── Generate time slots ────────────────────────────────────────────────────
+function generateSlots() {
+  const dateVal = document.getElementById('book_date').value;
+  if (!dateVal) return;
+  const d = new Date(dateVal + 'T12:00:00');
+  const dayOfWeek = d.getDay();
+  const sched = loadSchedule();
+  const area = document.getElementById('slots_area');
+  const grid = document.getElementById('slot_grid');
+  const info = document.getElementById('day_info');
+  grid.innerHTML = ''; selectedSlot = null;
+  document.getElementById('next3Btn').disabled = true;
+  document.getElementById('next3Btn').style.opacity = '0.5';
+  area.style.display = 'block';
+
+  // Check if blocked
+  const isBlocked = sched.blocked.find(b => b.date === dateVal);
+  if (isBlocked) {
+    info.innerHTML = `<span style="color:var(--red)">❌ This date is not available${isBlocked.reason ? ' — ' + isBlocked.reason : ''}.</span>`;
+    grid.innerHTML = '<p style="color:var(--muted);font-size:0.9rem">Please choose another date.</p>';
+    return;
+  }
+
+  // Check special day
+  const special = sched.special.find(s => s.date === dateVal);
+  let startTime, endTime, label;
+  if (special) {
+    startTime = special.start; endTime = special.end;
+    label = `<span class="badge ${special.label.toLowerCase().includes('beaufort')?'beaufort':'sunday'}">${special.label}</span>`;
+    info.innerHTML = `Special opening: ${label} — ${startTime} to ${endTime}`;
+  } else {
+    const dayConf = sched.hours[dayOfWeek];
+    if (!dayConf || !dayConf.open) {
+      info.innerHTML = `<span style="color:var(--red)">❌ We are closed on ${['Sundays','Mondays','Tuesdays','Wednesdays','Thursdays','Fridays','Saturdays'][dayOfWeek]}.</span>`;
+      grid.innerHTML = '<p style="color:var(--muted);font-size:0.9rem">Please choose another date.</p>';
+      return;
+    }
+    startTime = dayConf.start; endTime = dayConf.end;
+    info.innerHTML = `📅 ${['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'][dayOfWeek]} — ${startTime} to ${endTime}`;
+  }
+
+  // Generate 30-min slots
+  const slots = [];
+  let [sh,sm] = startTime.split(':').map(Number);
+  let [eh,em] = endTime.split(':').map(Number);
+  let cur = sh*60+sm, end = eh*60+em;
+  while (cur < end) {
+    const hh = String(Math.floor(cur/60)).padStart(2,'0');
+    const mm = String(cur%60).padStart(2,'0');
+    slots.push(`${hh}:${mm}`);
+    cur += 30;
+  }
+
+  if (slots.length === 0) {
+    grid.innerHTML = '<p style="color:var(--muted);font-size:0.9rem">No slots available for this day.</p>';
+    return;
+  }
+
+  slots.forEach(t => {
+    const el = document.createElement('div');
+    el.className = 'slot';
+    el.textContent = t;
+    el.onclick = () => {
+      document.querySelectorAll('.slot').forEach(s => s.classList.remove('selected'));
+      el.classList.add('selected');
+      selectedSlot = t;
+      document.getElementById('next3Btn').disabled = false;
+      document.getElementById('next3Btn').style.opacity = '1';
+    };
+    grid.appendChild(el);
+  });
+}
+
+// ── Build summary ──────────────────────────────────────────────────────────
+function buildSummary() {
+  const deposit = Math.round(selectedScan.price * 0.5);
+  const balance = selectedScan.price - deposit;
+  const date = document.getElementById('book_date').value;
+  const name = document.getElementById('pat_name').value.trim();
+  const phone = document.getElementById('pat_phone').value.trim();
+  const medical = document.getElementById('pat_medical').value;
+  document.getElementById('summary_card').innerHTML = `
+    <div class="summary-row"><span>Scan</span><span>${selectedScan.name}</span></div>
+    <div class="summary-row"><span>Code</span><span>${selectedScan.code||'—'}</span></div>
+    <div class="summary-row"><span>Date</span><span>${date}</span></div>
+    <div class="summary-row"><span>Time</span><span>${selectedSlot}</span></div>
+    <div class="summary-row"><span>Patient</span><span>${name}</span></div>
+    <div class="summary-row"><span>Phone</span><span>${phone}</span></div>
+    <div class="summary-row"><span>Medical aid</span><span>${medical}</span></div>
+    <div class="summary-row total"><span>Total scan fee</span><span>R${selectedScan.price.toLocaleString()}</span></div>
+    <div class="summary-row deposit"><span>50% Deposit due now</span><span>R${deposit.toLocaleString()}</span></div>
+    <div class="summary-row" style="font-size:0.82rem;color:var(--muted)"><span>Balance payable on the day</span><span>R${balance.toLocaleString()}</span></div>
+  `;
+}
+
+// ── PayFast ────────────────────────────────────────────────────────────────
+async function submitToPayFast() {
+  const name = document.getElementById('pat_name').value.trim();
+  const phone = document.getElementById('pat_phone').value.trim();
+  const email = document.getElementById('pat_email').value.trim();
+  const date = document.getElementById('book_date').value;
+  const deposit = Math.round(selectedScan.price * 0.5);
+  const paymentId = 'HD-' + Date.now().toString().slice(-6);
+  try {
+    await fetch(`${SUPABASE_URL}/rest/v1/bookings`, {
+      method:'POST',
+      headers:{'apikey':SUPABASE_KEY,'Authorization':`Bearer ${SUPABASE_KEY}`,'Content-Type':'application/json','Prefer':'return=representation'},
+      body: JSON.stringify({
+        patient_name:name, phone, email:email||null,
+        id_number:document.getElementById('pat_id').value.trim()||null,
+        scan_type:selectedScan.name, scan_code:selectedScan.code,
+        scan_price:selectedScan.price, deposit_amount:deposit,
+        appointment_date:date, appointment_time:selectedSlot,
+        medical_aid:document.getElementById('pat_medical').value,
+        referring_doctor:document.getElementById('pat_doctor').value.trim()||null,
+        notes:document.getElementById('pat_notes').value.trim()||null,
+        payment_id:paymentId, payment_status:'pending',
+        status:'pending_payment', created_at:new Date().toISOString()
+      })
+    });
+  } catch(e) { console.log(e); }
+  const nameParts = name.split(' ');
+  const baseUrl = window.location.href.split('?')[0];
+  document.getElementById('pf_return').value = baseUrl+'?booking=success&ref='+paymentId;
+  document.getElementById('pf_cancel').value = baseUrl+'?booking=cancelled';
+  document.getElementById('pf_name_first').value = nameParts[0];
+  document.getElementById('pf_name_last').value = nameParts.slice(1).join(' ')||'';
+  document.getElementById('pf_email').value = email||'';
+  document.getElementById('pf_phone').value = phone;
+  document.getElementById('pf_payment_id').value = paymentId;
+  document.getElementById('pf_amount').value = deposit.toFixed(2);
+  document.getElementById('pf_item_name').value = 'Hendors Diagnostics – '+selectedScan.name;
+  document.getElementById('pf_item_desc').value = `Booking deposit for ${selectedScan.name} on ${date} at ${selectedSlot}. Ref: ${paymentId}`;
+  document.getElementById('pf_form').submit();
+}
+
+// ── Admin panel ────────────────────────────────────────────────────────────
+function openAdmin() {
+  document.getElementById('adminOverlay').classList.add('open');
+  document.getElementById('adminLogin').style.display = 'block';
+  document.getElementById('adminPanel').style.display = 'none';
+  document.getElementById('adminPwd').value = '';
+  document.getElementById('adminErr').style.display = 'none';
+}
+function closeAdmin() { document.getElementById('adminOverlay').classList.remove('open'); }
+function checkAdminPwd() {
+  if (document.getElementById('adminPwd').value === ADMIN_PWD) {
+    document.getElementById('adminLogin').style.display = 'none';
+    document.getElementById('adminPanel').style.display = 'block';
+    renderAdminPanel();
+  } else {
+    document.getElementById('adminErr').style.display = 'block';
+  }
+}
+function switchAdminTab(tab) {
+  document.querySelectorAll('.admin-tab').forEach((t,i) => {
+    t.classList.toggle('active', ['hours','blocked','special'][i] === tab);
+  });
+  document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('active'));
+  document.getElementById('tab_'+tab).classList.add('active');
+}
+
+const DAY_NAMES = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+
+function renderAdminPanel() {
+  const sched = loadSchedule();
+
+  // Hours
+  const hoursDiv = document.getElementById('hours_rows');
+  hoursDiv.innerHTML = '';
+  for (let d = 0; d <= 6; d++) {
+    const conf = sched.hours[d];
+    const row = document.createElement('div');
+    row.className = 'day-row';
+    row.innerHTML = `
+      <input type="checkbox" id="day_open_${d}" ${conf.open?'checked':''} onchange="toggleDayOpen(${d})"/>
+      <span class="day-label">${DAY_NAMES[d]}</span>
+      <input type="time" id="day_start_${d}" value="${conf.start}" ${!conf.open?'disabled':''}/>
+      <span style="font-size:0.85rem;color:var(--muted)">to</span>
+      <input type="time" id="day_end_${d}" value="${conf.end}" ${!conf.open?'disabled':''}/>
+      <span class="day-status" id="day_status_${d}">${conf.open?'Open':'Closed'}</span>
+    `;
+    hoursDiv.appendChild(row);
+  }
+
+  // Blocked
+  renderBlockedList();
+
+  // Special
+  renderSpecialList();
+}
+
+function toggleDayOpen(d) {
+  const open = document.getElementById('day_open_'+d).checked;
+  document.getElementById('day_start_'+d).disabled = !open;
+  document.getElementById('day_end_'+d).disabled = !open;
+  document.getElementById('day_status_'+d).textContent = open ? 'Open' : 'Closed';
+}
+
+function saveHours() {
+  const sched = loadSchedule();
+  for (let d = 0; d <= 6; d++) {
+    sched.hours[d] = {
+      open: document.getElementById('day_open_'+d).checked,
+      start: document.getElementById('day_start_'+d).value,
+      end: document.getElementById('day_end_'+d).value
+    };
+  }
+  saveSchedule(sched);
+  const msg = document.getElementById('hours_saved');
+  msg.style.display = 'block';
+  setTimeout(() => msg.style.display = 'none', 2500);
+}
+
+function addBlockedDate() {
+  const date = document.getElementById('block_date_input').value;
+  const reason = document.getElementById('block_reason_input').value.trim();
+  if (!date) { alert('Please select a date.'); return; }
+  const sched = loadSchedule();
+  if (sched.blocked.find(b => b.date === date)) { alert('Already blocked.'); return; }
+  sched.blocked.push({ date, reason });
+  sched.blocked.sort((a,b) => a.date.localeCompare(b.date));
+  saveSchedule(sched);
+  document.getElementById('block_date_input').value = '';
+  document.getElementById('block_reason_input').value = '';
+  renderBlockedList();
+}
+
+function renderBlockedList() {
+  const sched = loadSchedule();
+  const list = document.getElementById('blocked_list');
+  list.innerHTML = sched.blocked.length === 0
+    ? '<p style="color:var(--muted);font-size:0.85rem">No dates blocked.</p>'
+    : sched.blocked.map(b => `
+        <div class="blocked-date-item">
+          <span><strong>${b.date}</strong>${b.reason?' — '+b.reason:''}</span>
+          <button class="remove-btn" onclick="removeBlocked('${b.date}')">Remove</button>
+        </div>`).join('');
+}
+
+function removeBlocked(date) {
+  const sched = loadSchedule();
+  sched.blocked = sched.blocked.filter(b => b.date !== date);
+  saveSchedule(sched); renderBlockedList();
+}
+
+function addSpecialDay() {
+  const date = document.getElementById('special_date').value;
+  const label = document.getElementById('special_label').value.trim() || 'Special Day';
+  const start = document.getElementById('special_start').value;
+  const end = document.getElementById('special_end').value;
+  if (!date) { alert('Please select a date.'); return; }
+  const sched = loadSchedule();
+  sched.special = sched.special.filter(s => s.date !== date);
+  sched.special.push({ date, label, start, end });
+  sched.special.sort((a,b) => a.date.localeCompare(b.date));
+  saveSchedule(sched);
+  document.getElementById('special_date').value = '';
+  document.getElementById('special_label').value = '';
+  renderSpecialList();
+}
+
+function renderSpecialList() {
+  const sched = loadSchedule();
+  const list = document.getElementById('special_list');
+  list.innerHTML = sched.special.length === 0
+    ? '<p style="color:var(--muted);font-size:0.85rem">No special days added.</p>'
+    : sched.special.map(s => `
+        <div class="special-day-item">
+          <div class="sdi-header">
+            <span><strong>${s.date}</strong> &nbsp;<span class="badge ${s.label.toLowerCase().includes('beaufort')?'beaufort':'sunday'}">${s.label}</span></span>
+            <button class="remove-btn" onclick="removeSpecial('${s.date}')">Remove</button>
+          </div>
+          <span style="font-size:0.85rem;color:var(--muted)">${s.start} – ${s.end}</span>
+        </div>`).join('');
+}
+
+function removeSpecial(date) {
+  const sched = loadSchedule();
+  sched.special = sched.special.filter(s => s.date !== date);
+  saveSchedule(sched); renderSpecialList();
+}
+
+// ── Handle PayFast return ──────────────────────────────────────────────────
+const urlParams = new URLSearchParams(window.location.search);
+if (urlParams.get('booking') === 'success') {
+  const ref = urlParams.get('ref') || 'HD-'+Date.now().toString().slice(-6);
+  document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
+  document.getElementById('section5').classList.add('active');
+  document.getElementById('ref_box').textContent = 'REF: ' + ref;
+  document.querySelectorAll('.step').forEach(s => s.classList.add('done'));
+}
+</script>
+</body>
+</html>
