@@ -130,34 +130,49 @@
   <!-- STEP 1 -->
   <div class="page-section active" id="section1">
     <h2 class="section-title">Select your scan type</h2>
+
+    <!-- PAYMENT TYPE TOGGLE -->
+    <div style="display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap;">
+      <div id="tog_cash" onclick="setPayType('cash')" style="flex:1;min-width:140px;border:2px solid var(--blue);border-radius:12px;padding:14px 18px;cursor:pointer;background:#e8f0ff;text-align:center;">
+        <div style="font-size:1.4rem;">💵</div>
+        <div style="font-weight:700;font-size:0.95rem;margin-top:4px;">Cash / Private</div>
+        <div style="font-size:0.78rem;color:var(--muted);">50% deposit required</div>
+      </div>
+      <div id="tog_medaid" onclick="setPayType('medaid')" style="flex:1;min-width:140px;border:2px solid var(--border);border-radius:12px;padding:14px 18px;cursor:pointer;background:white;text-align:center;">
+        <div style="font-size:1.4rem;">🏥</div>
+        <div style="font-weight:700;font-size:0.95rem;margin-top:4px;">Medical Aid</div>
+        <div style="font-size:0.78rem;color:var(--muted);">20% deposit required</div>
+      </div>
+    </div>
+
     <div class="card">
       <div class="cat-label">🤰 Obstetric Ultrasound</div>
       <div class="scan-grid">
-        <div class="scan-item" onclick="selectScan(this,'Before 10-week Obstetric Scan','5106',900)"><span class="scan-name">Before 10-week Obstetric Scan</span><span class="scan-price">R900</span></div>
-        <div class="scan-item" onclick="selectScan(this,'10–20 weeks + NT Scan','3615',900)"><span class="scan-name">10–20 weeks + NT Scan</span><span class="scan-price">R900</span></div>
-        <div class="scan-item" onclick="selectScan(this,'20–24 weeks Detail / Anomaly Scan','3617',1300)"><span class="scan-name">20–24 weeks Detail / Anomaly Scan</span><span class="scan-price">R1,300</span></div>
-        <div class="scan-item" onclick="selectScan(this,'Obstetric Scan after 24 weeks','5107',900)"><span class="scan-name">Obstetric Scan after 24 weeks</span><span class="scan-price">R900</span></div>
+        <div class="scan-item" onclick="selectScan(this,'Before 10-week Obstetric Scan','5106',900,1200)"><span class="scan-name">Before 10-week Obstetric Scan</span><span class="scan-price" id="sp_5106">R900</span></div>
+        <div class="scan-item" onclick="selectScan(this,'10–20 weeks + NT Scan','3615',900,1300)"><span class="scan-name">10–20 weeks + NT Scan</span><span class="scan-price" id="sp_3615">R900</span></div>
+        <div class="scan-item" onclick="selectScan(this,'20–24 weeks Detail / Anomaly Scan','3617',1300,1600)"><span class="scan-name">20–24 weeks Detail / Anomaly Scan</span><span class="scan-price" id="sp_3617">R1,300</span></div>
+        <div class="scan-item" onclick="selectScan(this,'Obstetric Scan after 24 weeks','5107',900,1300)"><span class="scan-name">Obstetric Scan after 24 weeks</span><span class="scan-price" id="sp_5107">R900</span></div>
       </div>
       <div class="cat-label">🔬 Pelvic / Gynaecological</div>
       <div class="scan-grid">
-        <div class="scan-item" onclick="selectScan(this,'Pelvic Organs – Gynae Trans-abdominal','3618',980)"><span class="scan-name">Pelvic Organs – Gynae Trans-abdominal</span><span class="scan-price">R980</span></div>
-        <div class="scan-item" onclick="selectScan(this,'Pelvic Organ Gynae Trans-vaginal','5100',980)"><span class="scan-name">Pelvic Organ Gynae Trans-vaginal</span><span class="scan-price">R980</span></div>
-        <div class="scan-item" onclick="selectScan(this,'Transvaginal & Trans-abdominal Gynae','',1600)"><span class="scan-name">Transvaginal &amp; Trans-abdominal Gynae</span><span class="scan-price">R1,600</span></div>
+        <div class="scan-item" onclick="selectScan(this,'Pelvic Organs – Gynae Trans-abdominal','3618',980,1300)"><span class="scan-name">Pelvic Organs – Gynae Trans-abdominal</span><span class="scan-price" id="sp_3618">R980</span></div>
+        <div class="scan-item" onclick="selectScan(this,'Pelvic Organ Gynae Trans-vaginal','5100',980,1250)"><span class="scan-name">Pelvic Organ Gynae Trans-vaginal</span><span class="scan-price" id="sp_5100">R980</span></div>
+        <div class="scan-item" onclick="selectScan(this,'Transvaginal & Trans-abdominal Gynae','',1600,1900)"><span class="scan-name">Transvaginal &amp; Trans-abdominal Gynae</span><span class="scan-price" id="sp_tvta">R1,600</span></div>
       </div>
       <div class="cat-label">🫀 Abdominal &amp; Renal</div>
       <div class="scan-grid">
-        <div class="scan-item" onclick="selectScan(this,'Abdominal Ultrasound','3627',1300)"><span class="scan-name">Abdominal Ultrasound</span><span class="scan-price">R1,300</span></div>
-        <div class="scan-item" onclick="selectScan(this,'Renal Track Ultrasound','3628',1000)"><span class="scan-name">Renal Track Ultrasound</span><span class="scan-price">R1,000</span></div>
-        <div class="scan-item" onclick="selectScan(this,'Pleural Space Ultrasound','5101',980)"><span class="scan-name">Pleural Space Ultrasound</span><span class="scan-price">R980</span></div>
+        <div class="scan-item" onclick="selectScan(this,'Abdominal Ultrasound','3627',1300,1452.79)"><span class="scan-name">Abdominal Ultrasound</span><span class="scan-price" id="sp_3627">R1,300</span></div>
+        <div class="scan-item" onclick="selectScan(this,'Renal Track Ultrasound','3628',1000,1250)"><span class="scan-name">Renal Track Ultrasound</span><span class="scan-price" id="sp_3628">R1,000</span></div>
+        <div class="scan-item" onclick="selectScan(this,'Pleural Space Ultrasound','5101',980,1200)"><span class="scan-name">Pleural Space Ultrasound</span><span class="scan-price" id="sp_5101">R980</span></div>
       </div>
       <div class="cat-label">🔍 Small Parts (HD)</div>
       <div class="scan-grid">
-        <div class="scan-item" onclick="selectScan(this,'HD – Thyroid, Breasts, Testes, MSK','3629',980)"><span class="scan-name">HD – Thyroid, Breasts, Testes, MSK</span><span class="scan-price">R980</span></div>
+        <div class="scan-item" onclick="selectScan(this,'HD – Thyroid, Breasts, Testes, MSK','3629',980,1300)"><span class="scan-name">HD – Thyroid, Breasts, Testes, MSK</span><span class="scan-price" id="sp_3629">R980</span></div>
       </div>
       <div class="cat-label">🩸 Vascular / Doppler</div>
       <div class="scan-grid">
-        <div class="scan-item" onclick="selectScan(this,'DVT Scan + Doppler','5114',980)"><span class="scan-name">DVT Scan + Doppler</span><span class="scan-price">R980</span></div>
-        <div class="scan-item" onclick="selectScan(this,'Carotid Doppler','3622',1600)"><span class="scan-name">Carotid Doppler</span><span class="scan-price">R1,600</span></div>
+        <div class="scan-item" onclick="selectScan(this,'DVT Scan + Doppler','5114',980,1900)"><span class="scan-name">DVT Scan + Doppler</span><span class="scan-price" id="sp_5114">R980</span></div>
+        <div class="scan-item" onclick="selectScan(this,'Carotid Doppler','3622',1600,0)"><span class="scan-name">Carotid Doppler</span><span class="scan-price" id="sp_3622">R1,600</span></div>
       </div>
     </div>
     <div class="btn-row">
@@ -180,7 +195,7 @@
       <div class="form-row">
         <div>
           <label>Medical aid / Cash</label>
-          <select id="pat_medical" onchange="document.getElementById('medNotice').style.display=this.value!=='Cash'?'block':'none'">
+          <select id="pat_medical" onchange="onMedicalChange()">
             <option value="Cash">Cash</option>
             <option value="Discovery Health">Discovery Health</option>
             <option value="GEMS">GEMS</option>
@@ -188,15 +203,72 @@
             <option value="Medihelp">Medihelp</option>
             <option value="Fedhealth">Fedhealth</option>
             <option value="Momentum">Momentum</option>
-            <option value="Other">Other</option>
+            <option value="Bestmed">Bestmed</option>
+            <option value="KeyHealth">KeyHealth</option>
+            <option value="Profmed">Profmed</option>
+            <option value="Other">Other (specify below)</option>
           </select>
+          <input type="text" id="med_other_name" placeholder="Enter your medical aid name" style="display:none;margin-top:8px;" />
         </div>
         <div><label>Referring doctor</label><input type="text" id="pat_doctor" placeholder="e.g. Dr van der Westhuizen"/></div>
+      </div>
+
+      <!-- MEDICAL AID EXTRA FIELDS — shown only when medical aid selected -->
+      <div id="medaid_fields" style="display:none;border:1.5px solid #2d9cdb;border-radius:12px;padding:18px;margin-top:4px;margin-bottom:8px;background:#f0f8ff;">
+        <p style="font-weight:700;color:var(--blue);font-size:0.88rem;margin-bottom:14px;">🏥 Medical Aid Details</p>
+        <div class="form-row">
+          <div><label>Medical aid number <span class="required">*</span></label><input type="text" id="med_number" placeholder="e.g. 123456789"/></div>
+          <div><label>Dependant code</label><input type="text" id="med_dep_code" placeholder="e.g. 00 (main) or 01, 02…"/></div>
+        </div>
+        <div class="form-row">
+          <div><label>Main member full name <span class="required">*</span></label><input type="text" id="med_main_name" placeholder="e.g. John Smith"/></div>
+          <div><label>Main member date of birth</label><input type="date" id="med_main_dob"/></div>
+        </div>
+        <div class="form-row">
+          <div><label>Main member ID number</label><input type="text" id="med_main_id" placeholder="e.g. 8001015009087"/></div>
+          <div>
+            <label>Relationship to main member <span class="required">*</span></label>
+            <select id="med_relationship">
+              <option value="">Select…</option>
+              <option value="Main Member">Main Member (myself)</option>
+              <option value="Spouse">Spouse / Partner</option>
+              <option value="Child">Child</option>
+              <option value="Parent">Parent</option>
+              <option value="Other Dependant">Other Dependant</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div><label>Home address <span class="required">*</span></label><input type="text" id="med_address" placeholder="e.g. 12 Main Street, George"/></div>
+          <div><label>Occupation</label><input type="text" id="med_occupation" placeholder="e.g. Teacher, Nurse, Retired…"/></div>
+        </div>
+        <div class="form-row single">
+          <div>
+            <label>Town / Area <span class="required">*</span></label>
+            <select id="med_town">
+              <option value="">Select your town…</option>
+              <option value="George">George</option>
+              <option value="Beaufort West">Beaufort West</option>
+              <option value="Oudtshoorn">Oudtshoorn</option>
+              <option value="Mossel Bay">Mossel Bay</option>
+              <option value="Knysna">Knysna</option>
+              <option value="Plettenberg Bay">Plettenberg Bay</option>
+              <option value="Uniondale">Uniondale</option>
+              <option value="Ladismith">Ladismith</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div><label>Home address</label><input type="text" id="pat_address" placeholder="e.g. 12 Main Street, George"/></div>
+        <div><label>Occupation</label><input type="text" id="pat_occupation" placeholder="e.g. Teacher, Nurse, Retired…"/></div>
       </div>
       <div class="form-row single">
         <div><label>Notes / special requests</label><textarea id="pat_notes" placeholder="Any additional information…"></textarea></div>
       </div>
-      <div class="warn-box" id="medNotice" style="display:none">⚠️ <strong>Medical aid patients:</strong> Please bring your medical aid card and referral letter. A 50% deposit is still required to secure your booking.</div>
+      <div class="warn-box" id="medNotice" style="display:none">⚠️ <strong>Medical aid patients:</strong> Please bring your medical aid card and referral letter. A 20% deposit is required to secure your booking and will be deducted from any co-payment due.</div>
     </div>
     <div class="btn-row">
       <button class="btn btn-secondary" onclick="goToStep(1)">← Back</button>
@@ -437,6 +509,57 @@
 // ── State ──────────────────────────────────────────────────────────────────
 let selectedScan = null;
 let selectedSlot = null;
+let payType = 'cash'; // 'cash' or 'medaid'
+
+// Scan data: {code: [cashPrice, medaidPrice]}
+const SCAN_PRICES = {
+  '5106':[900,1200],'3615':[900,1300],'3617':[1300,1600],'5107':[900,1300],
+  '3618':[980,1300],'5100':[980,1250],'tvta':[1600,1900],
+  '3627':[1300,1452.79],'3628':[1000,1250],'5101':[980,1200],
+  '3629':[980,1300],'5114':[980,1900],'3622':[1600,0]
+};
+
+// ── Medical aid change ─────────────────────────────────────────────────────
+function onMedicalChange() {
+  const val = document.getElementById('pat_medical').value;
+  const isMed = val !== 'Cash';
+  const isOther = val === 'Other';
+  document.getElementById('medNotice').style.display = isMed ? 'block' : 'none';
+  document.getElementById('medaid_fields').style.display = isMed ? 'block' : 'none';
+  document.getElementById('med_other_name').style.display = isOther ? 'block' : 'none';
+  if (isOther) document.getElementById('med_other_name').focus();
+}
+function setPayType(type) {
+  payType = type;
+  const isMed = type === 'medaid';
+  document.getElementById('tog_cash').style.borderColor = isMed ? 'var(--border)' : 'var(--blue)';
+  document.getElementById('tog_cash').style.background = isMed ? 'white' : '#e8f0ff';
+  document.getElementById('tog_medaid').style.borderColor = isMed ? 'var(--blue)' : 'var(--border)';
+  document.getElementById('tog_medaid').style.background = isMed ? '#e8f0ff' : 'white';
+
+  // Update all prices shown
+  Object.entries(SCAN_PRICES).forEach(([code, prices]) => {
+    const el = document.getElementById('sp_'+code);
+    if (!el) return;
+    const price = isMed ? prices[1] : prices[0];
+    el.textContent = price > 0 ? 'R'+price.toLocaleString('en-ZA',{minimumFractionDigits:0,maximumFractionDigits:2}) : 'On request';
+  });
+
+  // Update medical aid dropdown in step 2
+  const medSel = document.getElementById('pat_medical');
+  if (medSel) {
+    medSel.value = isMed ? 'Discovery Health' : 'Cash';
+    document.getElementById('medNotice').style.display = isMed ? 'block' : 'none';
+    document.getElementById('medaid_fields').style.display = isMed ? 'block' : 'none';
+  }
+
+  // Re-select scan with updated price if already selected
+  if (selectedScan) {
+    const prices = SCAN_PRICES[selectedScan.code] || [selectedScan.cashPrice, selectedScan.medaidPrice];
+    selectedScan.price = isMed ? prices[1] : prices[0];
+    document.getElementById('scan_display').value = selectedScan.name + ' — R' + selectedScan.price.toLocaleString();
+  }
+}
 
 const SUPABASE_URL = 'https://acqahzuiozxfuqyqmgqr.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFjcWFoenVpb3p4ZnVxeXFtZ3FyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY1MTQ0MTYsImV4cCI6MjA2MjA5MDQxNn0.8BM15bjtI0o23e';
@@ -469,10 +592,11 @@ const today = new Date();
 document.getElementById('book_date').min = today.toISOString().split('T')[0];
 
 // ── Scan selection ─────────────────────────────────────────────────────────
-function selectScan(el, name, code, price) {
+function selectScan(el, name, code, cashPrice, medaidPrice) {
   document.querySelectorAll('.scan-item').forEach(i => i.classList.remove('selected'));
   el.classList.add('selected');
-  selectedScan = { name, code, price };
+  const price = payType === 'medaid' ? medaidPrice : cashPrice;
+  selectedScan = { name, code, price, cashPrice, medaidPrice };
   const btn = document.getElementById('next1Btn');
   btn.disabled = false; btn.style.opacity = '1';
   document.getElementById('scan_display').value = name + ' — R' + price.toLocaleString();
@@ -485,6 +609,22 @@ function goToStep(n) {
     const name = document.getElementById('pat_name').value.trim();
     const phone = document.getElementById('pat_phone').value.trim();
     if (!name || !phone) { alert('Please enter your full name and phone number.'); return; }
+    const medical = document.getElementById('pat_medical').value;
+    if (medical !== 'Cash') {
+      const medNum = document.getElementById('med_number').value.trim();
+      const medMain = document.getElementById('med_main_name').value.trim();
+      const medRel = document.getElementById('med_relationship').value;
+      const medAddr = document.getElementById('med_address').value.trim();
+      const medTown = document.getElementById('med_town').value;
+      if (!medNum) { alert('Please enter your medical aid number.'); return; }
+      if (!medMain) { alert('Please enter the main member\'s full name.'); return; }
+      if (!medRel) { alert('Please select your relationship to the main member.'); return; }
+      if (!medAddr) { alert('Please enter your home address.'); return; }
+      if (!medTown) { alert('Please select your town.'); return; }
+      if (medical === 'Other' && !document.getElementById('med_other_name').value.trim()) {
+        alert('Please enter the name of your medical aid.'); return;
+      }
+    }
   }
   if (n === 4) {
     const date = document.getElementById('book_date').value;
@@ -576,23 +716,55 @@ function generateSlots() {
 
 // ── Build summary ──────────────────────────────────────────────────────────
 function buildSummary() {
-  const deposit = Math.round(selectedScan.price * 0.5);
+  const isMed = payType === 'medaid';
+  const depositPct = isMed ? 0.20 : 0.50;
+  const deposit = Math.round(selectedScan.price * depositPct);
   const balance = selectedScan.price - deposit;
   const date = document.getElementById('book_date').value;
   const name = document.getElementById('pat_name').value.trim();
   const phone = document.getElementById('pat_phone').value.trim();
   const medical = document.getElementById('pat_medical').value;
+
+  // Update notice text
+  document.querySelector('.notice').innerHTML = `<strong>✅ Almost done!</strong> A ${isMed?'20%':'50%'} deposit secures your booking. ${isMed?'We will provide a paid invoice for you to claim back from your medical aid.':'The balance is payable on the day.'}`;
+  // Update cancellation policy text
+  document.querySelectorAll('.notice ~ div strong').forEach(el => {});
+
+  let medAidRows = '';
+  if (isMed) {
+    medAidRows = `
+      <div class="summary-row" style="color:var(--muted);font-size:0.82rem"><span>Medical aid tariff</span><span>R${selectedScan.price.toLocaleString()}</span></div>
+      <div class="summary-row" style="font-size:0.82rem;color:#0a4a26"><span>Medical aid will pay practice directly</span><span></span></div>
+      <div class="summary-row" style="font-size:0.82rem;color:var(--muted)"><span>If co-payment applies, deposit of R${deposit.toLocaleString()} will be deducted from co-payment</span><span></span></div>`;
+  }
+
   document.getElementById('summary_card').innerHTML = `
     <div class="summary-row"><span>Scan</span><span>${selectedScan.name}</span></div>
     <div class="summary-row"><span>Code</span><span>${selectedScan.code||'—'}</span></div>
+    <div class="summary-row"><span>Payment type</span><span>${isMed?'Medical Aid':'Cash / Private'}</span></div>
+    <div class="summary-row"><span>Medical aid</span><span>${medical}</span></div>
+    ${medical !== 'Cash' ? `
+    <div class="summary-row"><span>Medical aid number</span><span>${document.getElementById('med_number').value||'—'}</span></div>
+    <div class="summary-row"><span>Dependant code</span><span>${document.getElementById('med_dep_code').value||'00'}</span></div>
+    <div class="summary-row"><span>Main member</span><span>${document.getElementById('med_main_name').value||'—'}</span></div>
+    <div class="summary-row"><span>Main member DOB</span><span>${document.getElementById('med_main_dob').value||'—'}</span></div>
+    <div class="summary-row"><span>Relationship</span><span>${document.getElementById('med_relationship').value||'—'}</span></div>
+    <div class="summary-row"><span>Home address</span><span>${document.getElementById('med_address').value||'—'}</span></div>
+    <div class="summary-row"><span>Occupation</span><span>${document.getElementById('med_occupation').value||'—'}</span></div>
+    <div class="summary-row"><span>Town</span><span>${document.getElementById('med_town').value||'—'}</span></div>
+    ` : ''}
     <div class="summary-row"><span>Date</span><span>${date}</span></div>
     <div class="summary-row"><span>Time</span><span>${selectedSlot}</span></div>
     <div class="summary-row"><span>Patient</span><span>${name}</span></div>
     <div class="summary-row"><span>Phone</span><span>${phone}</span></div>
-    <div class="summary-row"><span>Medical aid</span><span>${medical}</span></div>
-    <div class="summary-row total"><span>Total scan fee</span><span>R${selectedScan.price.toLocaleString()}</span></div>
-    <div class="summary-row deposit"><span>50% Deposit due now</span><span>R${deposit.toLocaleString()}</span></div>
-    <div class="summary-row" style="font-size:0.82rem;color:var(--muted)"><span>Balance payable on the day</span><span>R${balance.toLocaleString()}</span></div>
+    ${medical === 'Cash' ? `
+    <div class="summary-row"><span>Address</span><span>${document.getElementById('pat_address').value||'—'}</span></div>
+    <div class="summary-row"><span>Occupation</span><span>${document.getElementById('pat_occupation').value||'—'}</span></div>
+    ` : ''}
+    ${medAidRows}
+    <div class="summary-row total"><span>Total fee</span><span>R${selectedScan.price.toLocaleString()}</span></div>
+    <div class="summary-row deposit"><span>${isMed?'20%':'50%'} Deposit due now</span><span>R${deposit.toLocaleString()}</span></div>
+    <div class="summary-row" style="font-size:0.82rem;color:var(--muted)"><span>${isMed?'Balance (medical aid claim)':'Balance payable on the day'}</span><span>R${balance.toLocaleString()}</span></div>
   `;
 }
 
@@ -638,7 +810,7 @@ async function confirmBooking() {
   const phone = document.getElementById('pat_phone').value.trim();
   const email = document.getElementById('pat_email').value.trim();
   const date = document.getElementById('book_date').value;
-  const deposit = Math.round(selectedScan.price * 0.5);
+  const deposit = Math.round(selectedScan.price * (payType === 'medaid' ? 0.20 : 0.50));
   const paymentId = document.getElementById('cap_ref').textContent || 'HD-'+Date.now().toString().slice(-6);
 
   if (selectedPayMethod === 'eft') {
@@ -661,10 +833,25 @@ async function confirmBooking() {
         scan_type:selectedScan.name, scan_code:selectedScan.code,
         scan_price:selectedScan.price, deposit_amount:deposit,
         appointment_date:date, appointment_time:selectedSlot,
-        medical_aid:document.getElementById('pat_medical').value,
+        medical_aid: document.getElementById('pat_medical').value === 'Other'
+          ? (document.getElementById('med_other_name').value.trim() || 'Other')
+          : document.getElementById('pat_medical').value,
+        medical_aid_number:document.getElementById('med_number')?.value.trim()||null,
+        medical_aid_dep_code:document.getElementById('med_dep_code')?.value.trim()||null,
+        main_member_name:document.getElementById('med_main_name')?.value.trim()||null,
+        main_member_dob:document.getElementById('med_main_dob')?.value||null,
+        main_member_id:document.getElementById('med_main_id')?.value.trim()||null,
+        relationship_to_member:document.getElementById('med_relationship')?.value||null,
+        patient_address: document.getElementById('pat_medical').value !== 'Cash'
+          ? document.getElementById('med_address')?.value.trim()||null
+          : document.getElementById('pat_address')?.value.trim()||null,
+        patient_occupation: document.getElementById('pat_medical').value !== 'Cash'
+          ? document.getElementById('med_occupation')?.value.trim()||null
+          : document.getElementById('pat_occupation')?.value.trim()||null,
+        patient_town:document.getElementById('med_town')?.value||null,
         referring_doctor:document.getElementById('pat_doctor').value.trim()||null,
         notes:document.getElementById('pat_notes').value.trim()||null,
-        payment_id:paymentId, payment_method:selectedPayMethod,
+        payment_id:paymentId, payment_method:selectedPayMethod, payment_type:payType,
         payment_status: selectedPayMethod === 'payfast' ? 'pending' : 'awaiting_verification',
         status:'pending_payment', created_at:new Date().toISOString()
       })
