@@ -247,9 +247,89 @@
     </div>
 
     <div class="card">
-      <p style="font-size:0.9rem;color:var(--muted);margin-bottom:16px">You will be redirected to PayFast's secure payment page. After payment your booking is confirmed and reception will contact you.</p>
-      <button class="btn btn-pay" onclick="submitToPayFast()">🔒 Pay Deposit &amp; Confirm Booking</button>
-      <div class="info-box" style="margin-top:16px">🔒 Payments processed securely by PayFast. We never store your card details.</div>
+      <p style="font-size:0.95rem;font-weight:600;color:var(--navy);margin-bottom:16px">Choose your payment method:</p>
+
+      <!-- PAYFAST -->
+      <div id="opt_payfast" onclick="selectPayMethod('payfast')" style="border:2px solid var(--border);border-radius:12px;padding:16px;margin-bottom:12px;cursor:pointer;transition:all 0.18s;">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div style="width:44px;height:44px;background:#00c9a7;border-radius:10px;display:flex;align-items:center;justify-content:center;color:white;font-weight:800;font-size:0.72rem;flex-shrink:0;">PF</div>
+          <div>
+            <div style="font-weight:700;font-size:0.95rem;">PayFast — Card / Instant EFT</div>
+            <div style="font-size:0.82rem;color:var(--muted);">Pay securely by card, SnapScan or instant EFT</div>
+          </div>
+          <div style="margin-left:auto;font-size:1.3rem;" id="pf_check">⭕</div>
+        </div>
+      </div>
+
+      <!-- CAPITEC PAY -->
+      <div id="opt_capitec" onclick="selectPayMethod('capitec')" style="border:2px solid var(--border);border-radius:12px;padding:16px;margin-bottom:12px;cursor:pointer;transition:all 0.18s;">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div style="width:44px;height:44px;background:#0033A0;border-radius:10px;display:flex;align-items:center;justify-content:center;color:white;font-weight:800;font-size:0.72rem;flex-shrink:0;">CAP</div>
+          <div>
+            <div style="font-weight:700;font-size:0.95rem;">Capitec Pay / EFT</div>
+            <div style="font-size:0.82rem;color:var(--muted);">Pay via Capitec app or bank transfer</div>
+          </div>
+          <div style="margin-left:auto;font-size:1.3rem;" id="cap_check">⭕</div>
+        </div>
+      </div>
+
+      <!-- EFT -->
+      <div id="opt_eft" onclick="selectPayMethod('eft')" style="border:2px solid var(--border);border-radius:12px;padding:16px;margin-bottom:20px;cursor:pointer;transition:all 0.18s;">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div style="width:44px;height:44px;background:#1e5fa8;border-radius:10px;display:flex;align-items:center;justify-content:center;color:white;font-size:1.3rem;flex-shrink:0;">🏦</div>
+          <div>
+            <div style="font-weight:700;font-size:0.95rem;">Other Bank EFT</div>
+            <div style="font-size:0.82rem;color:var(--muted);">Transfer from any bank and upload proof</div>
+          </div>
+          <div style="margin-left:auto;font-size:1.3rem;" id="eft_check">⭕</div>
+        </div>
+      </div>
+
+      <!-- PAYFAST DETAILS -->
+      <div id="payfast_details" style="display:none;background:#e8fdf7;border-radius:12px;padding:18px;margin-bottom:16px;">
+        <p style="font-weight:700;color:#007a63;margin-bottom:8px;">💳 You will be redirected to PayFast's secure payment page</p>
+        <p style="font-size:0.85rem;color:var(--muted);">Accepts: Visa, Mastercard, SnapScan, Instant EFT</p>
+      </div>
+
+      <!-- CAPITEC DETAILS -->
+      <div id="capitec_details" style="display:none;background:#f0f4ff;border-radius:12px;padding:18px;margin-bottom:16px;">
+        <p style="font-weight:700;color:#0033A0;margin-bottom:12px;">💙 Capitec Banking Details</p>
+        <p style="font-size:0.88rem;color:var(--text);line-height:1.8;">
+          <strong>Account name:</strong> Hendors Diagnostics<br/>
+          <strong>Bank:</strong> Capitec Bank<br/>
+          <strong>Account number:</strong> 1391190457<br/>
+          <strong>Branch code:</strong> 470010<br/>
+          <strong>Reference:</strong> <span id="cap_ref" style="font-weight:700;color:var(--blue)"></span>
+        </p>
+        <div style="margin-top:12px;padding:10px;background:#fff3cd;border-radius:8px;font-size:0.82rem;color:#7a4f00;">
+          📱 Open Capitec app → Pay → Use reference number above. Then upload proof below.
+        </div>
+        <div style="margin-top:14px;">
+          <label style="font-size:0.85rem;font-weight:600;color:var(--navy2);margin-bottom:8px;display:block;">📎 Upload proof of payment <span class="required">*</span></label>
+          <input type="file" id="cap_proof_upload" accept="image/*,.pdf" style="font-size:0.85rem;padding:8px;"/>
+        </div>
+      </div>
+
+      <!-- EFT DETAILS -->
+      <div id="eft_details" style="display:none;background:#f0f4ff;border-radius:12px;padding:18px;margin-bottom:16px;">
+        <p style="font-weight:700;color:var(--navy);margin-bottom:12px;">🏦 Banking Details</p>
+        <p style="font-size:0.88rem;color:var(--text);line-height:1.8;">
+          <strong>Account name:</strong> Hendors Diagnostics<br/>
+          <strong>Bank:</strong> Capitec Bank<br/>
+          <strong>Account number:</strong> 1391190457<br/>
+          <strong>Branch code:</strong> 470010<br/>
+          <strong>Reference:</strong> <span id="eft_ref" style="font-weight:700;color:var(--blue)"></span>
+        </p>
+        <div style="margin-top:16px;">
+          <label style="font-size:0.85rem;font-weight:600;color:var(--navy2);margin-bottom:8px;display:block;">📎 Upload proof of payment <span class="required">*</span></label>
+          <input type="file" id="proof_upload" accept="image/*,.pdf" style="font-size:0.85rem;padding:8px;"/>
+        </div>
+      </div>
+
+      <button class="btn btn-pay" id="confirm_pay_btn" onclick="confirmBooking()" style="display:none;">
+        ✅ Confirm Booking
+      </button>
+      <div class="info-box" style="margin-top:16px;">🔒 Your booking is only confirmed once reception verifies your payment. We will WhatsApp you within 2 hours to confirm.</div>
     </div>
     <div class="btn-row"><button class="btn btn-secondary" onclick="goToStep(3)">← Back</button></div>
   </div>
@@ -258,10 +338,10 @@
   <div class="page-section" id="section5">
     <div class="card" style="text-align:center;padding:48px 28px">
       <div class="success-icon">✅</div>
-      <div class="success-title">Booking Confirmed!</div>
-      <div class="success-sub">Your deposit has been received and your booking is secured.</div>
+      <div class="success-title">Booking Request Received!</div>
+      <div class="success-sub">Your booking is being processed. Reception will verify your payment and confirm within 2 hours.</div>
       <div class="ref-box" id="ref_box">REF: HD-XXXXXX</div>
-      <p style="color:var(--muted);font-size:0.9rem">Reception will contact you on <strong id="confirm_phone"></strong> to confirm your appointment details.<br/>Please bring your ID and medical aid card on the day.</p>
+      <p style="color:var(--muted);font-size:0.9rem">We will WhatsApp you on <strong id="confirm_phone"></strong> to confirm your appointment.<br/>Please bring your ID and medical aid card on the day.</p>
       <button class="btn btn-primary" style="margin-top:28px;max-width:300px" onclick="location.href=location.pathname">Make Another Booking</button>
     </div>
   </div>
@@ -341,17 +421,16 @@
 <form id="pf_form" action="https://www.payfast.co.za/eng/process" method="POST" style="display:none">
   <input type="hidden" name="merchant_id" value="11337369"/>
   <input type="hidden" name="merchant_key" value="bhfp7mkjwmdu9"/>
-  <input type="hidden" name="return_url" id="pf_return"/>
-  <input type="hidden" name="cancel_url" id="pf_cancel"/>
-  <input type="hidden" name="notify_url" value="https://acqahzuiozxfuqyqmgqr.supabase.co/functions/v1/payfast-notify"/>
-  <input type="hidden" name="name_first" id="pf_name_first"/>
-  <input type="hidden" name="name_last" id="pf_name_last"/>
-  <input type="hidden" name="email_address" id="pf_email"/>
-  <input type="hidden" name="cell_number" id="pf_phone"/>
-  <input type="hidden" name="m_payment_id" id="pf_payment_id"/>
-  <input type="hidden" name="amount" id="pf_amount"/>
-  <input type="hidden" name="item_name" id="pf_item_name"/>
-  <input type="hidden" name="item_description" id="pf_item_desc"/>
+  <input type="hidden" name="return_url" value=""/>
+  <input type="hidden" name="cancel_url" value=""/>
+  <input type="hidden" name="name_first" value=""/>
+  <input type="hidden" name="name_last" value=""/>
+  <input type="hidden" name="email_address" value=""/>
+  <input type="hidden" name="cell_number" value=""/>
+  <input type="hidden" name="m_payment_id" value=""/>
+  <input type="hidden" name="amount" value=""/>
+  <input type="hidden" name="item_name" value=""/>
+  <input type="hidden" name="item_description" value=""/>
 </form>
 
 <script>
@@ -517,18 +596,61 @@ function buildSummary() {
   `;
 }
 
-// ── PayFast ────────────────────────────────────────────────────────────────
-async function submitToPayFast() {
+// ── Payment method selection ───────────────────────────────────────────────
+let selectedPayMethod = null;
+
+function selectPayMethod(method) {
+  selectedPayMethod = method;
+  const paymentId = 'HD-' + Date.now().toString().slice(-6);
+  document.getElementById('cap_ref').textContent = paymentId;
+  document.getElementById('eft_ref').textContent = paymentId;
+
+  // Reset all
+  ['payfast','capitec','eft'].forEach(m => {
+    const el = document.getElementById('opt_'+m);
+    if(el){ el.style.borderColor='var(--border)'; el.style.background='white'; }
+    const chk = document.getElementById(m === 'payfast' ? 'pf_check' : m+'_check');
+    if(chk) chk.textContent = '⭕';
+    const det = document.getElementById(m+'_details');
+    if(det) det.style.display = 'none';
+  });
+
+  document.getElementById('opt_'+method).style.borderColor = 'var(--blue)';
+  document.getElementById('opt_'+method).style.background = '#e8f0ff';
+  const chkId = method === 'payfast' ? 'pf_check' : method+'_check';
+  document.getElementById(chkId).textContent = '✅';
+  document.getElementById(method+'_details').style.display = 'block';
+
+  const btn = document.getElementById('confirm_pay_btn');
+  btn.style.display = 'block';
+  btn.textContent = method === 'payfast' ? '🔒 Pay Deposit via PayFast' : '✅ Confirm Booking';
+}
+
+// ── Confirm booking ────────────────────────────────────────────────────────
+async function confirmBooking() {
   if (!document.getElementById('policy_agree').checked) {
     alert('Please read and accept the cancellation policy before proceeding.');
     return;
   }
+  if (!selectedPayMethod) { alert('Please select a payment method.'); return; }
+
   const name = document.getElementById('pat_name').value.trim();
   const phone = document.getElementById('pat_phone').value.trim();
   const email = document.getElementById('pat_email').value.trim();
   const date = document.getElementById('book_date').value;
   const deposit = Math.round(selectedScan.price * 0.5);
-  const paymentId = 'HD-' + Date.now().toString().slice(-6);
+  const paymentId = document.getElementById('cap_ref').textContent || 'HD-'+Date.now().toString().slice(-6);
+
+  if (selectedPayMethod === 'eft') {
+    const proof = document.getElementById('proof_upload').files[0];
+    if (!proof) { alert('Please upload your proof of payment.'); return; }
+  }
+  if (selectedPayMethod === 'capitec') {
+    const proof = document.getElementById('cap_proof_upload').files[0];
+    if (!proof) { alert('Please upload your proof of payment.'); return; }
+  }
+
+  // Save to Supabase
   try {
     await fetch(`${SUPABASE_URL}/rest/v1/bookings`, {
       method:'POST',
@@ -542,28 +664,52 @@ async function submitToPayFast() {
         medical_aid:document.getElementById('pat_medical').value,
         referring_doctor:document.getElementById('pat_doctor').value.trim()||null,
         notes:document.getElementById('pat_notes').value.trim()||null,
-        payment_id:paymentId, payment_status:'pending',
+        payment_id:paymentId, payment_method:selectedPayMethod,
+        payment_status: selectedPayMethod === 'payfast' ? 'pending' : 'awaiting_verification',
         status:'pending_payment', created_at:new Date().toISOString()
       })
     });
   } catch(e) { console.log(e); }
-  const nameParts = name.split(' ');
-  const baseUrl = 'https://hendorwynne-a11y.github.io/hd-patient-intake/booking.html';
-  document.getElementById('pf_return').value = baseUrl+'?booking=success&ref='+paymentId;
-  document.getElementById('pf_cancel').value = baseUrl+'?booking=cancelled';
-  document.getElementById('pf_name_first').value = nameParts[0];
-  document.getElementById('pf_name_last').value = nameParts.slice(1).join(' ')||'';
-  document.getElementById('pf_email').value = email||'';
-  // Format phone for PayFast: +27XXXXXXXXX
-  let pfPhone = phone.replace(/\s/g,'');
-  if (pfPhone.startsWith('0')) pfPhone = '+27' + pfPhone.slice(1);
-  else if (!pfPhone.startsWith('+')) pfPhone = '+27' + pfPhone;
-  document.getElementById('pf_phone').value = pfPhone;
-  document.getElementById('pf_payment_id').value = paymentId;
-  document.getElementById('pf_amount').value = deposit.toFixed(2);
-  document.getElementById('pf_item_name').value = 'Hendors Diagnostics – '+selectedScan.name;
-  document.getElementById('pf_item_desc').value = `Booking deposit for ${selectedScan.name} on ${date} at ${selectedSlot}. Ref: ${paymentId}. Cancellation policy: forfeit deposit if cancelled less than 8 hours before appointment.`;
-  document.getElementById('pf_form').submit();
+
+  // PayFast redirect
+  if (selectedPayMethod === 'payfast') {
+    const nameParts = name.split(' ');
+    const baseUrl = 'https://hendorwynne-a11y.github.io/hd-patient-intake/booking.html';
+    const form = document.getElementById('pf_form');
+    form.querySelector('[name=return_url]').value = baseUrl+'?booking=success&ref='+paymentId;
+    form.querySelector('[name=cancel_url]').value = baseUrl+'?booking=cancelled';
+    form.querySelector('[name=name_first]').value = nameParts[0];
+    form.querySelector('[name=name_last]').value = nameParts.slice(1).join(' ')||'';
+    form.querySelector('[name=email_address]').value = email||'';
+    let pfPhone = phone.replace(/\s/g,'');
+    if (pfPhone.startsWith('0')) pfPhone = '+27'+pfPhone.slice(1);
+    else if (!pfPhone.startsWith('+')) pfPhone = '+27'+pfPhone;
+    form.querySelector('[name=cell_number]').value = pfPhone;
+    form.querySelector('[name=m_payment_id]').value = paymentId;
+    form.querySelector('[name=amount]').value = deposit.toFixed(2);
+    form.querySelector('[name=item_name]').value = 'Hendors Diagnostics – '+selectedScan.name;
+    form.querySelector('[name=item_description]').value = `Deposit for ${selectedScan.name} on ${date} at ${selectedSlot}. Ref: ${paymentId}. Cancellation policy: forfeit if cancelled <8hrs before.`;
+    form.submit();
+    return;
+  }
+
+  // EFT/Capitec — show success
+  document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
+  document.getElementById('section5').classList.add('active');
+  document.getElementById('ref_box').textContent = 'REF: ' + paymentId;
+  document.getElementById('confirm_phone').textContent = phone;
+  document.querySelectorAll('.step').forEach(s => s.classList.add('done'));
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ── Handle PayFast return ──────────────────────────────────────────────────
+const urlParams = new URLSearchParams(window.location.search);
+if (urlParams.get('booking') === 'success') {
+  const ref = urlParams.get('ref') || 'HD-'+Date.now().toString().slice(-6);
+  document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
+  document.getElementById('section5').classList.add('active');
+  document.getElementById('ref_box').textContent = 'REF: ' + ref;
+  document.querySelectorAll('.step').forEach(s => s.classList.add('done'));
 }
 
 // ── Admin panel ────────────────────────────────────────────────────────────
@@ -713,15 +859,7 @@ function removeSpecial(date) {
   saveSchedule(sched); renderSpecialList();
 }
 
-// ── Handle PayFast return ──────────────────────────────────────────────────
-const urlParams = new URLSearchParams(window.location.search);
-if (urlParams.get('booking') === 'success') {
-  const ref = urlParams.get('ref') || 'HD-'+Date.now().toString().slice(-6);
-  document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
-  document.getElementById('section5').classList.add('active');
-  document.getElementById('ref_box').textContent = 'REF: ' + ref;
-  document.querySelectorAll('.step').forEach(s => s.classList.add('done'));
-}
+
 </script>
 </body>
 </html>
